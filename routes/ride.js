@@ -20,8 +20,10 @@ router.post('/request', async (req, res) => {
 });
 
 //Drivers only: accept a ride
-router.post('/accept',protect,restriction('driver'), async (req, res) => {
+router.post('/accept',protect,restrictTo('driver'), async (req, res) => {
     const { rideId } = req.body;
+
+    const ride=await Ride.findById(rideId);
 
   if (!ride) {
     return res.status(404).json({ message: 'Ride not found' });
@@ -35,9 +37,13 @@ router.post('/accept',protect,restriction('driver'), async (req, res) => {
   ride.status = 'accepted';
 
   await ride.save();
+
+
   res.json(ride);
 });
 
+
+//Any authenticated user can complete a ride (optional: restrict to driver later)
 router.post('/complete', async (req, res) => {
   const { rideId } = req.body;
   const ride = await Ride.findByIdAndUpdate(rideId, { status: 'completed' }, { new: true });

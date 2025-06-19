@@ -1,0 +1,5 @@
+dependencies:
+  flutter:
+    sdk: flutter
+  google_maps_flutter: ^2.5.0
+  http: ^0.14.0

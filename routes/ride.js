@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Ride = require('../models/Ride');
-const { protect } = require('../middleware/authMiddleware');
+const { protect,restrictTo } = require('../middleware/authMiddleware');
 const getRouteInfo = require('../utils/maps');
 
 //Riders only: request a ride
-router.post('/request', async (req, res) => {
-  const { riderId, pickup, dropoff } = req.body;
+router.post('/request',protect,restrictTo('rider'), async (req, res) => {
+  const { pickup, dropoff } = req.body;
 
   const routeInfo = await getRouteInfo(pickup, dropoff);
   
@@ -46,7 +46,16 @@ router.post('/accept',protect,restrictTo('driver'), async (req, res) => {
 //Any authenticated user can complete a ride (optional: restrict to driver later)
 router.post('/complete', async (req, res) => {
   const { rideId } = req.body;
-  const ride = await Ride.findByIdAndUpdate(rideId, { status: 'completed' }, { new: true });
+
+   const ride = await Ride.findById(rideId);
+
+  if (!ride) {
+    return res.status(404).json({ message: 'Ride not found' });
+  }
+
+  ride.status = 'completed';
+  await ride.save();
+  
   res.json(ride);
 });
 

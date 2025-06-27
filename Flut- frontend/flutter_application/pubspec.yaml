@@ -1,5 +1,16 @@
+name: uber_esque
+description: Uber clone frontend with Flutter
+version: 1.0.0+1
+
+environment:
+  sdk: 3.8.1
+
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.14.0
-  shared_preferences: ^2.2.2
+  http: 0.14.0
+  shared_preferences: 2.2.2
+  google_maps_flutter: 2.5.0
+
+flutter:
+  uses-material-design: true

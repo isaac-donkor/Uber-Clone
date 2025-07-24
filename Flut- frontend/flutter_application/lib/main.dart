@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 void main() => runApp(UberCloneApp());
 
 class UberCloneApp extends StatelessWidget {
-  const UberCloneApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,8 +17,6 @@ class UberCloneApp extends StatelessWidget {
 }
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
